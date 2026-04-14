@@ -26,9 +26,20 @@ Everything is plain markdown, version-controlled, greppable, and diffable. Zero 
 
 If you use Claude Code, the convention becomes fully automated:
 
-- **Save** anything from natural language: *"Save this as a feature: add dark mode to the settings page"* → Claude picks the template, creates `roadmap/feat-dark-mode.md`, adds the table row.
+- **Save** anything from natural language: *"Save this as a feature: add dark mode to the settings page"* → Claude picks the template, creates `roadmap/feat-dark-mode/` with the spec and a `docs/` directory ready for supporting material, adds the table row.
 - **Load** any entry to start work: *"Load the dark mode feature"* → Claude reads the full spec and presents a plan before writing any code.
 - **Table stays current** automatically — status, priority, and overview always reflect the actual files.
+- **Archive when done**: Claude moves completed items to `roadmap/archived/` and removes them from the table. Nothing is deleted — full history stays in place.
+
+Each item lives in its own workspace directory so research notes, reference docs, and artifacts stay co-located with the spec:
+
+```
+roadmap/
+  feat-dark-mode/
+    feat-dark-mode.md     ← the spec
+    docs/                 ← drop anything useful here
+  archived/               ← completed items, out of active tracking
+```
 
 The `CLAUDE.md` instructions wire all of this up. Without Claude Code, the convention still works — you just manage files and the table manually.
 

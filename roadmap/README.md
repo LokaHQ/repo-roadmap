@@ -10,11 +10,26 @@ This directory contains specs, ideas, and challenges for contributors (and for m
 | `idea-`      | Early exploration — interesting direction, not yet fully designed. Good for discussion. |
 | `challenge-` | Problem to solve — the what is clear, the how is open. |
 
+## Directory layout
+
+Each roadmap item is either a flat `.md` file or a **workspace directory**:
+
+```
+roadmap/
+  feat-big-thing/         ← workspace: spec + supporting material
+    feat-big-thing.md
+    docs/                 ← research, references, artifacts
+  idea-simple.md          ← flat: no workspace needed
+  archived/               ← completed or abandoned items
+```
+
+Items start as flat files and grow into workspace directories when they need supporting material. Completed items move to `archived/` and disappear from the table below.
+
 ## Current roadmap
 
 | File                        | Status      | Priority | Owner | One-Line Overview |
 |-----------------------------|-------------|----------|-------|-------------------|
-| [feat-workspace-per-item.md](feat-workspace-per-item.md) | ⏳ todo | medium | | Replace the flat `roadmap/` file layout with per-item subdirectories so each feat, idea, and challenge has a dedicated workspace for specs, docs, and research artifacts. |
+| [feat-workspace-per-item/](feat-workspace-per-item/feat-workspace-per-item.md) | 🚧 in-progress | medium | @rabb1tl0ka + @claude-sonnet-4-6 | Replace the flat `roadmap/` file layout with per-item subdirectories so each feat, idea, and challenge has a dedicated workspace for specs, docs, and research artifacts. |
 
 *(The table above is automatically maintained by Claude Code. Do not edit it manually.)*
 
@@ -31,12 +46,19 @@ This directory contains specs, ideas, and challenges for contributors (and for m
 
 Contributions can be a PR that evolves the file itself (adding design, research, proposal, or turning an idea into a full `feat-` spec) before any code is written.
 
+### Working with docs/
+
+Drop any supporting material — research notes, reference docs, screenshots, competitive analysis — into the item's `docs/` directory. Claude Code will read from it when working on that item.
+
 ### Solo Dev + AI Workflow
 
 Claude Code (and other local AI tools) is instructed to:
-- Always add/update the minimal frontmatter (`status` and `priority`)
+- Always create new items as workspace directories with `docs/` auto-created
+- Auto-promote flat items to workspace dirs when `docs/` is needed
+- Always add/update the minimal frontmatter (`status`, `priority`, `owner`)
 - Keep the **One-Line Overview** section filled with one crisp sentence
-- Automatically regenerate the table above after any change to a roadmap file
+- Automatically regenerate the table above after any change to a roadmap item
+- Move completed items to `archived/` and remove them from the table
 
 ## Templates
 

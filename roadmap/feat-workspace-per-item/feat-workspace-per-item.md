@@ -1,7 +1,7 @@
 ---
-status: todo
+status: in-progress
 priority: medium
-owner: ""
+owner: "@rabb1tl0ka + @claude-sonnet-4-6"
 ---
 
 # Feature Spec: Workspace Per Roadmap Item
@@ -118,6 +118,6 @@ roadmap/
 
 ## Open questions
 
-1. Should Claude Code auto-promote a flat item to a subdir when asked to create a `docs/` for it, or require explicit user instruction?
-2. Should `archived/` items be listed in a separate collapsed table in `README.md`, or omitted entirely?
-3. Should `docs/` be created automatically on subdir creation, or only when the user drops something in?
+1. Should Claude Code auto-promote a flat item to a subdir when asked to create a `docs/` for it, or require explicit user instruction? [Bruno: yes]
+2. Should `archived/` items be listed in a separate collapsed table in `README.md`, or omitted entirely? [Bruno: ommited]
+3. Should `docs/` be created automatically on subdir creation, or only when the user drops something in? [Bruno: auto add it]

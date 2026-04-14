@@ -46,14 +46,16 @@ CURRENT_TAG=$(git -C "$SCRIPT_DIR" describe --tags --abbrev=0 2>/dev/null || ech
 echo "Installing repo-roadmap convention ($CURRENT_TAG) into $TARGET..."
 echo ""
 
-# Create roadmap/templates/
+# Create roadmap/templates/ and roadmap/archived/
 mkdir -p "$TARGET/roadmap/templates"
+mkdir -p "$TARGET/roadmap/archived"
 
 # Copy templates
 cp "$SCRIPT_DIR/roadmap/templates/template-feat.md"      "$TARGET/roadmap/templates/"
 cp "$SCRIPT_DIR/roadmap/templates/template-idea.md"      "$TARGET/roadmap/templates/"
 cp "$SCRIPT_DIR/roadmap/templates/template-challenge.md" "$TARGET/roadmap/templates/"
 echo "✅ Templates copied to roadmap/templates/"
+echo "✅ roadmap/archived/ created"
 
 # Copy roadmap README
 cp "$SCRIPT_DIR/roadmap/README.md" "$TARGET/roadmap/README.md"

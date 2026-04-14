@@ -90,14 +90,29 @@ else
     echo "✅ Created CLAUDE.md with '$IMPORT_LINE'"
 fi
 
+# ── Ensure archived/ exists ───────────────────────────────────────────────────
+
+if [ ! -d "$TARGET/roadmap/archived" ]; then
+    mkdir -p "$TARGET/roadmap/archived"
+    echo "✅ roadmap/archived/ created"
+fi
+
 # ── Audit content files ───────────────────────────────────────────────────────
 
 echo ""
 
 NEEDS_MIGRATION=()
 
-for f in "$TARGET/roadmap"/feat-*.md "$TARGET/roadmap"/idea-*.md "$TARGET/roadmap"/challenge-*.md; do
+for f in \
+    "$TARGET/roadmap"/feat-*.md \
+    "$TARGET/roadmap"/idea-*.md \
+    "$TARGET/roadmap"/challenge-*.md \
+    "$TARGET/roadmap"/feat-*/feat-*.md \
+    "$TARGET/roadmap"/idea-*/idea-*.md \
+    "$TARGET/roadmap"/challenge-*/challenge-*.md; do
     [ -f "$f" ] || continue
+    # Skip archived items
+    [[ "$f" == *"/archived/"* ]] && continue
 
     rel="${f#$TARGET/}"
     issues=()
