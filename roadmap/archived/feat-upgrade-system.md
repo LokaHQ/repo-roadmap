@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: done
 priority: high
 owner: "@rabb1tl0ka + @claude-sonnet-4-6"
 ---
