@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install the roadmap convention into an existing repo.
+# Install the repo-roadmap convention into an existing repo.
 #
 # Usage: bash install.sh <target-repo-path>
 # Example: bash install.sh ~/loka/code/my-project
@@ -7,6 +7,9 @@
 set -e
 
 TARGET="$1"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# ── Validation ────────────────────────────────────────────────────────────────
 
 if [ -z "$TARGET" ]; then
     echo "Usage: bash install.sh <target-repo-path>"
@@ -18,28 +21,70 @@ if [ ! -d "$TARGET" ]; then
     exit 1
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-
-# Copy roadmap/ directory
-if [ -d "$TARGET/roadmap" ]; then
-    echo "roadmap/ already exists in target — skipping (remove it manually if you want a fresh copy)."
-else
-    cp -r "$SCRIPT_DIR/roadmap" "$TARGET/roadmap"
-    echo "Copied roadmap/ to $TARGET/roadmap"
+if [ ! -d "$TARGET/.git" ]; then
+    echo "Error: '$TARGET' is not a git repository."
+    exit 1
 fi
 
-# CLAUDE.md — append if exists, create if not
-CLAUDE_SRC="$SCRIPT_DIR/CLAUDE.md"
+if [ -d "$TARGET/roadmap" ]; then
+    echo "Error: roadmap/ already exists in '$TARGET'."
+    echo "       To upgrade an existing install, use: bash upgrade.sh $TARGET"
+    exit 1
+fi
+
+# Warn if working tree is dirty, but don't block
+if ! git -C "$TARGET" diff --quiet 2>/dev/null || ! git -C "$TARGET" diff --cached --quiet 2>/dev/null; then
+    echo "Warning: '$TARGET' has uncommitted changes. Continuing anyway."
+fi
+
+# ── Get current version tag ───────────────────────────────────────────────────
+
+CURRENT_TAG=$(git -C "$SCRIPT_DIR" describe --tags --abbrev=0 2>/dev/null || echo "untagged")
+
+# ── Install ───────────────────────────────────────────────────────────────────
+
+echo "Installing repo-roadmap convention ($CURRENT_TAG) into $TARGET..."
+echo ""
+
+# Create roadmap/templates/
+mkdir -p "$TARGET/roadmap/templates"
+
+# Copy templates
+cp "$SCRIPT_DIR/roadmap/templates/template-feat.md"      "$TARGET/roadmap/templates/"
+cp "$SCRIPT_DIR/roadmap/templates/template-idea.md"      "$TARGET/roadmap/templates/"
+cp "$SCRIPT_DIR/roadmap/templates/template-challenge.md" "$TARGET/roadmap/templates/"
+echo "✅ Templates copied to roadmap/templates/"
+
+# Copy roadmap README
+cp "$SCRIPT_DIR/roadmap/README.md" "$TARGET/roadmap/README.md"
+echo "✅ roadmap/README.md created"
+
+# Copy convention instructions (fully owned by convention, safe to replace on upgrade)
+cp "$SCRIPT_DIR/roadmap/CLAUDE-roadmap.md" "$TARGET/roadmap/CLAUDE-roadmap.md"
+echo "✅ roadmap/CLAUDE-roadmap.md created"
+
+# Wire into target's CLAUDE.md
 CLAUDE_DST="$TARGET/CLAUDE.md"
+IMPORT_LINE="@roadmap/CLAUDE-roadmap.md"
 
 if [ -f "$CLAUDE_DST" ]; then
-    echo "" >> "$CLAUDE_DST"
-    echo "---" >> "$CLAUDE_DST"
-    cat "$CLAUDE_SRC" >> "$CLAUDE_DST"
-    echo "Appended roadmap instructions to existing $CLAUDE_DST"
+    if grep -qF "$IMPORT_LINE" "$CLAUDE_DST"; then
+        echo "ℹ️  CLAUDE.md already imports roadmap/CLAUDE-roadmap.md — skipping"
+    else
+        echo "" >> "$CLAUDE_DST"
+        echo "$IMPORT_LINE" >> "$CLAUDE_DST"
+        echo "✅ Appended '$IMPORT_LINE' to existing CLAUDE.md"
+    fi
 else
-    cp "$CLAUDE_SRC" "$CLAUDE_DST"
-    echo "Created $CLAUDE_DST"
+    echo "$IMPORT_LINE" > "$CLAUDE_DST"
+    echo "✅ Created CLAUDE.md with '$IMPORT_LINE'"
 fi
 
-echo "Done. Roadmap convention installed in $TARGET"
+# Write version file
+echo "$CURRENT_TAG" > "$TARGET/.roadmap-version"
+echo "✅ .roadmap-version set to $CURRENT_TAG"
+
+echo ""
+echo "Done. Commit the new files to finish the install:"
+echo "  git -C $TARGET add roadmap/ CLAUDE.md .roadmap-version"
+echo "  git -C $TARGET commit -m 'chore: install repo-roadmap convention ($CURRENT_TAG)'"
