@@ -1,6 +1,7 @@
 ---
 status: todo
 priority: medium
+owner: ""
 ---
 
 # Challenge: [Title]
