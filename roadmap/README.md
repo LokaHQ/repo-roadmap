@@ -29,7 +29,6 @@ Items start as flat files and grow into workspace directories when they need sup
 
 | File                        | Status      | Priority | Owner | One-Line Overview |
 |-----------------------------|-------------|----------|-------|-------------------|
-| [feat-workspace-per-item/](feat-workspace-per-item/feat-workspace-per-item.md) | 🚧 in-progress | medium | @rabb1tl0ka + @claude-sonnet-4-6 | Replace the flat `roadmap/` file layout with per-item subdirectories so each feat, idea, and challenge has a dedicated workspace for specs, docs, and research artifacts. |
 
 *(The table above is automatically maintained by Claude Code. Do not edit it manually.)*
 

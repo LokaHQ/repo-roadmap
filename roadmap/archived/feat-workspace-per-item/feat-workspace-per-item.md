@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: done
 priority: medium
 owner: "@rabb1tl0ka + @claude-sonnet-4-6"
 ---
