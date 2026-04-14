@@ -1,7 +1,7 @@
 ---
-status: todo
+status: done
 priority: medium
-owner: ""
+owner: "@rabb1tl0ka"
 ---
 
 # Idea: Improve README to Better Sell Unique Value

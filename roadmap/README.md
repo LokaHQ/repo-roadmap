@@ -16,7 +16,6 @@ This directory contains specs, ideas, and challenges for contributors (and for m
 |-----------------------------|-------------|----------|-------|-------------------|
 | [feat-upgrade-system.md](feat-upgrade-system.md) | 🔍 review | high | @rabb1tl0ka + @claude-sonnet-4-6 | Replace the fragile sentinel/text-patching upgrade approach with a resilient system using `@file` imports, atomic template replacement, and an audit-first content migration flow. |
 | [feat-workspace-per-item.md](feat-workspace-per-item.md) | ⏳ todo | medium | | Replace the flat `roadmap/` file layout with per-item subdirectories so each feat, idea, and challenge has a dedicated workspace for specs, docs, and research artifacts. |
-| [idea-improve-readme-unique-value/](idea-improve-readme-unique-value/idea-improve-readme-unique-value.md) | ⏳ todo | medium | | Rewrite the repo's README to clearly articulate what makes this roadmap convention uniquely better than existing alternatives, using real analysis to back the claims. |
 
 *(The table above is automatically maintained by Claude Code. Do not edit it manually.)*
 
