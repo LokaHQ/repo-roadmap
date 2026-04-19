@@ -1,18 +1,28 @@
 #!/bin/bash
 # Upgrade an existing repo-roadmap install to the current convention version.
 #
-# Usage: bash upgrade.sh <target-repo-path>
+# Usage: bash upgrade.sh <target-repo-path> [--create-pr]
 # Example: bash upgrade.sh ~/loka/code/my-project
+#          bash upgrade.sh ~/loka/code/my-project --create-pr
 
 set -e
 
 TARGET="$1"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+# ── Flag parsing ──────────────────────────────────────────────────────────────
+
+CREATE_PR=false
+for arg in "$@"; do
+    case $arg in
+        --create-pr) CREATE_PR=true ;;
+    esac
+done
+
 # ── Validation ────────────────────────────────────────────────────────────────
 
 if [ -z "$TARGET" ]; then
-    echo "Usage: bash upgrade.sh <target-repo-path>"
+    echo "Usage: bash upgrade.sh <target-repo-path> [--create-pr]"
     exit 1
 fi
 
@@ -160,7 +170,75 @@ fi
 echo "$CURRENT_TAG" > "$VERSION_FILE"
 echo ""
 echo "✅ .roadmap-version updated to $CURRENT_TAG"
-echo ""
-echo "Upgrade complete. Review changes then commit:"
-echo "  git -C $TARGET add roadmap/ CLAUDE.md .roadmap-version"
-echo "  git -C $TARGET commit -m 'chore: upgrade repo-roadmap convention to $CURRENT_TAG'"
+
+# ── Commit and optionally create PR ──────────────────────────────────────────
+
+if [ "$CREATE_PR" = true ]; then
+    echo ""
+    BRANCH="chore/roadmap-upgrade-${CURRENT_TAG}"
+
+    if git -C "$TARGET" show-ref --verify --quiet "refs/heads/$BRANCH"; then
+        echo "⚠️  Branch '$BRANCH' already exists. Delete it or merge the existing PR first."
+        exit 1
+    fi
+
+    git -C "$TARGET" checkout -b "$BRANCH"
+    git -C "$TARGET" add roadmap/ CLAUDE.md .roadmap-version
+    git -C "$TARGET" commit -m "chore: upgrade repo-roadmap convention ${LAST_TAG} → ${CURRENT_TAG}"
+    git -C "$TARGET" push -u origin "$BRANCH"
+    echo "✅ Branch '$BRANCH' pushed"
+
+    if ! command -v gh &>/dev/null; then
+        echo ""
+        echo "⚠️  GitHub CLI (gh) not found — skipping PR creation."
+        echo "   Install: https://cli.github.com"
+        echo "   Then create the PR manually or run: gh pr create"
+        exit 0
+    fi
+
+    if ! gh auth status &>/dev/null; then
+        echo ""
+        echo "⚠️  gh is not authenticated — skipping PR creation."
+        echo "   Run: gh auth login"
+        echo "   Then create the PR manually or run: gh pr create"
+        exit 0
+    fi
+
+    DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name -C "$TARGET" 2>/dev/null || echo "main")
+
+    CHANGELOG=$(git -C "$SCRIPT_DIR" log "${LAST_TAG}..${CURRENT_TAG}" --oneline 2>/dev/null || true)
+    if [ -z "$CHANGELOG" ]; then
+        CHANGELOG="No changelog available (tags missing or first install)."
+        CHANGELOG_MD="- $CHANGELOG"
+    else
+        CHANGELOG_MD=$(echo "$CHANGELOG" | sed 's/^/- /')
+    fi
+
+    CHANGED_FILES=$(git -C "$TARGET" diff --name-only HEAD~1 HEAD 2>/dev/null | sed 's/^/- /' || echo "- (unable to list)")
+
+    PR_URL=$(gh pr create \
+        --repo "$(gh repo view --json nameWithOwner -q .nameWithOwner -C "$TARGET")" \
+        --base "$DEFAULT_BRANCH" \
+        --head "$BRANCH" \
+        --title "chore: upgrade repo-roadmap convention ${LAST_TAG} → ${CURRENT_TAG}" \
+        --body "$(cat <<EOF
+## repo-roadmap upgrade: ${LAST_TAG} → ${CURRENT_TAG}
+
+### What changed upstream
+${CHANGELOG_MD}
+
+### Files updated
+${CHANGED_FILES}
+EOF
+)")
+
+    echo ""
+    echo "✅ PR created: $PR_URL"
+else
+    echo ""
+    echo "Upgrade complete. Review changes then commit:"
+    echo "  git -C $TARGET add roadmap/ CLAUDE.md .roadmap-version"
+    echo "  git -C $TARGET commit -m 'chore: upgrade repo-roadmap convention ${LAST_TAG} → ${CURRENT_TAG}'"
+    echo ""
+    echo "  To create a PR instead: bash upgrade.sh $TARGET --create-pr"
+fi

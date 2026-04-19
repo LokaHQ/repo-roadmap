@@ -27,6 +27,10 @@ Every roadmap entry uses one of three prefixes:
 - `idea-` — early exploration, not yet fully designed
 - `challenge-` — known problem, solution still open
 
+## Reviewing specs
+
+Use `[YourName: your comment]` to annotate specs inline. Claude Code will recognize these as reviewer comments when asked to review them.
+
 ## Roadmap Management Rules (Strict - Always Follow)
 
 You are the active maintainer of the roadmap in the `roadmap/` directory.
