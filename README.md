@@ -72,6 +72,22 @@ To upgrade and open a PR for review:
 bash repo-roadmap/upgrade.sh /path/to/your/repo --create-pr
 ```
 
+#### Upgrading multiple repos at once
+
+Copy `repos.txt.example` to `repos.txt` (gitignored) and list your repo paths — one per line:
+
+```
+/home/you/code/my-project
+/home/you/code/another-repo
+```
+
+Then run:
+
+```bash
+bash repo-roadmap/upgrade-all.sh           # direct commit in each repo
+bash repo-roadmap/upgrade-all.sh --create-pr  # open a PR in each repo
+```
+
 ## Quickstart
 
 After installing, tell Claude Code to save something:
