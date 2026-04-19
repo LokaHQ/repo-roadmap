@@ -85,6 +85,12 @@ echo "✅ Templates replaced (3 files)"
 cp "$SCRIPT_DIR/roadmap/CLAUDE.md" "$TARGET/roadmap/CLAUDE.md"
 echo "✅ roadmap/CLAUDE.md updated"
 
+# Remove old filename if still present (renamed in v0.3.0)
+if [ -f "$TARGET/roadmap/CLAUDE-roadmap.md" ]; then
+    rm "$TARGET/roadmap/CLAUDE-roadmap.md"
+    echo "✅ Removed stale roadmap/CLAUDE-roadmap.md"
+fi
+
 if [ ! -f "$TARGET/roadmap/README.md" ]; then
     cp "$SCRIPT_DIR/roadmap/README.md" "$TARGET/roadmap/README.md"
     echo "✅ roadmap/README.md created (was missing)"
