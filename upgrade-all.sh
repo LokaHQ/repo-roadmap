@@ -22,6 +22,9 @@ while IFS= read -r line || [ -n "$line" ]; do
     # Skip blank lines and comments
     [[ -z "$line" || "$line" == \#* ]] && continue
 
+    # Expand ~ to $HOME
+    line="${line/#\~/$HOME}"
+
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "▶ $line"
     echo ""

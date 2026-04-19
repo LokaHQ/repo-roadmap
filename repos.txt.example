@@ -1,3 +1,3 @@
-# One absolute path per line. Copy this file to repos.txt (gitignored) and fill in your repos.
-# /home/you/code/my-project
-# /home/you/code/another-repo
+# One path per line. ~ is supported. Copy this file to repos.txt (gitignored) and fill in your repos.
+# ~/code/my-project
+# ~/code/another-repo
