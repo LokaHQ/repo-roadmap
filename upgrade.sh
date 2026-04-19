@@ -204,7 +204,7 @@ if [ "$CREATE_PR" = true ]; then
         exit 0
     fi
 
-    DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name -C "$TARGET" 2>/dev/null || echo "main")
+    DEFAULT_BRANCH=$(cd "$TARGET" && gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null || echo "main")
 
     CHANGELOG=$(git -C "$SCRIPT_DIR" log "${LAST_TAG}..${CURRENT_TAG}" --oneline 2>/dev/null || true)
     if [ -z "$CHANGELOG" ]; then
@@ -216,8 +216,7 @@ if [ "$CREATE_PR" = true ]; then
 
     CHANGED_FILES=$(git -C "$TARGET" diff --name-only HEAD~1 HEAD 2>/dev/null | sed 's/^/- /' || echo "- (unable to list)")
 
-    PR_URL=$(gh pr create \
-        --repo "$(gh repo view --json nameWithOwner -q .nameWithOwner -C "$TARGET")" \
+    PR_URL=$(cd "$TARGET" && gh pr create \
         --base "$DEFAULT_BRANCH" \
         --head "$BRANCH" \
         --title "chore: upgrade repo-roadmap convention ${LAST_TAG} → ${CURRENT_TAG}" \
