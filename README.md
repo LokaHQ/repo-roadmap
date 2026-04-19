@@ -56,6 +56,22 @@ bash repo-roadmap/install.sh /path/to/your/repo
 
 The script copies `roadmap/` into the target and appends the Claude Code instructions to your `CLAUDE.md` (or creates one).
 
+### Staying up to date
+
+`upgrade.sh` lives in your repo-roadmap clone and runs against any installed repo:
+
+```bash
+bash repo-roadmap/upgrade.sh /path/to/your/repo
+```
+
+This replaces the convention files (templates, `roadmap/CLAUDE.md`) with the latest version and audits your content files for any required migrations. Your roadmap entries are never touched.
+
+To upgrade and open a PR for review:
+
+```bash
+bash repo-roadmap/upgrade.sh /path/to/your/repo --create-pr
+```
+
 ## Quickstart
 
 After installing, tell Claude Code to save something:
