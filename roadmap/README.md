@@ -29,6 +29,7 @@ Items start as flat files and grow into workspace directories when they need sup
 
 | File                        | Status      | Priority | Owner | One-Line Overview |
 |-----------------------------|-------------|----------|-------|-------------------|
+| [feat-check-update/](feat-check-update/feat-check-update.md) | ⏳ todo | medium | | A script installed into target repos that checks the local `.roadmap-version` against the latest GitHub release tag and tells the dev whether an upgrade is available. |
 
 *(The table above is automatically maintained by Claude Code. Do not edit it manually.)*
 
