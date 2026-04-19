@@ -90,11 +90,18 @@ if [ ! -f "$TARGET/roadmap/README.md" ]; then
     echo "✅ roadmap/README.md created (was missing)"
 fi
 
-# Ensure CLAUDE.md imports it (idempotent)
+# Ensure CLAUDE.md imports the new path and remove the old one if present
 CLAUDE_DST="$TARGET/CLAUDE.md"
 IMPORT_LINE="@roadmap/CLAUDE.md"
+OLD_IMPORT_LINE="@roadmap/CLAUDE-roadmap.md"
 
 if [ -f "$CLAUDE_DST" ]; then
+    # Remove old import line if present
+    if grep -qF "$OLD_IMPORT_LINE" "$CLAUDE_DST"; then
+        sed -i "/$OLD_IMPORT_LINE/d" "$CLAUDE_DST"
+        echo "✅ Removed old '$OLD_IMPORT_LINE' from CLAUDE.md"
+    fi
+    # Add new import line if not already there
     if ! grep -qF "$IMPORT_LINE" "$CLAUDE_DST"; then
         echo "" >> "$CLAUDE_DST"
         echo "$IMPORT_LINE" >> "$CLAUDE_DST"
