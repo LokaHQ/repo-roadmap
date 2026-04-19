@@ -105,3 +105,24 @@ Claude reads the full spec — branch name, implementation steps, test plan — 
 This is deliberately not a project management tool. No assignees, no due dates, no kanban boards, no GitHub Issues integration. If you need those, you already have tools for them.
 
 This is the layer that keeps *directional thinking* — what to build, why, and how — co-located with the code that builds it.
+
+## Why not GitHub Issues?
+
+The short answer: GitHub Issues are great for intake, not for execution.
+
+Ideas and challenges could technically live in GitHub Issues — and at first glance it seems natural, since GitHub already has `enhancement`, `bug`, and `question` labels, plus milestones and contributor discovery. But there are real costs:
+
+- **Claude can't read them offline.** Local files are always available; GitHub API calls are not.
+- **No git history on the thinking.** Issues have comment threads; local files have diffs, blame, and version history.
+- **The lifecycle breaks.** The value of repo-roadmap is the chain `idea → challenge → feat`. That evolution happens in local files with Claude helping at each step. If ideas and challenges live in GitHub Issues, every handoff to Claude requires a manual copy-paste.
+
+The design that works in practice:
+
+| Layer | Tool | Purpose |
+|-------|------|---------|
+| Intake | GitHub Issues | Bug reports, community questions, raw requests from users or teammates |
+| Execution | repo-roadmap | Triaged work — specced, version-controlled, Claude-ready |
+
+When a GitHub Issue is worth acting on, promote it to a roadmap entry. Add an optional `issue: "#123"` line to the frontmatter to keep the link. Close the issue with a pointer to the spec. From that point on, the spec is the source of truth.
+
+This keeps GitHub Issues doing what they're good at (community, visibility, triage) and repo-roadmap doing what it's good at (AI-assisted execution).
