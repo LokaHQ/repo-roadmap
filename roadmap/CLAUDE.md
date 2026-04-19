@@ -13,7 +13,7 @@ roadmap/
   archived/               ← completed or abandoned items (omitted from table)
   templates/
   README.md
-  CLAUDE-roadmap.md
+  CLAUDE.md
 ```
 
 Every roadmap entry is either:

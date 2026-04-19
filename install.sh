@@ -62,16 +62,16 @@ cp "$SCRIPT_DIR/roadmap/README.md" "$TARGET/roadmap/README.md"
 echo "✅ roadmap/README.md created"
 
 # Copy convention instructions (fully owned by convention, safe to replace on upgrade)
-cp "$SCRIPT_DIR/roadmap/CLAUDE-roadmap.md" "$TARGET/roadmap/CLAUDE-roadmap.md"
-echo "✅ roadmap/CLAUDE-roadmap.md created"
+cp "$SCRIPT_DIR/roadmap/CLAUDE.md" "$TARGET/roadmap/CLAUDE.md"
+echo "✅ roadmap/CLAUDE.md created"
 
 # Wire into target's CLAUDE.md
 CLAUDE_DST="$TARGET/CLAUDE.md"
-IMPORT_LINE="@roadmap/CLAUDE-roadmap.md"
+IMPORT_LINE="@roadmap/CLAUDE.md"
 
 if [ -f "$CLAUDE_DST" ]; then
     if grep -qF "$IMPORT_LINE" "$CLAUDE_DST"; then
-        echo "ℹ️  CLAUDE.md already imports roadmap/CLAUDE-roadmap.md — skipping"
+        echo "ℹ️  CLAUDE.md already imports roadmap/CLAUDE.md — skipping"
     else
         echo "" >> "$CLAUDE_DST"
         echo "$IMPORT_LINE" >> "$CLAUDE_DST"

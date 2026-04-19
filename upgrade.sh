@@ -70,10 +70,10 @@ cp "$SCRIPT_DIR/roadmap/templates/template-idea.md"      "$TARGET/roadmap/templa
 cp "$SCRIPT_DIR/roadmap/templates/template-challenge.md" "$TARGET/roadmap/templates/"
 echo "✅ Templates replaced (3 files)"
 
-# ── Replace CLAUDE-roadmap.md and roadmap/README.md ──────────────────────────
+# ── Replace CLAUDE.md and roadmap/README.md ──────────────────────────────────
 
-cp "$SCRIPT_DIR/roadmap/CLAUDE-roadmap.md" "$TARGET/roadmap/CLAUDE-roadmap.md"
-echo "✅ roadmap/CLAUDE-roadmap.md updated"
+cp "$SCRIPT_DIR/roadmap/CLAUDE.md" "$TARGET/roadmap/CLAUDE.md"
+echo "✅ roadmap/CLAUDE.md updated"
 
 if [ ! -f "$TARGET/roadmap/README.md" ]; then
     cp "$SCRIPT_DIR/roadmap/README.md" "$TARGET/roadmap/README.md"
@@ -82,7 +82,7 @@ fi
 
 # Ensure CLAUDE.md imports it (idempotent)
 CLAUDE_DST="$TARGET/CLAUDE.md"
-IMPORT_LINE="@roadmap/CLAUDE-roadmap.md"
+IMPORT_LINE="@roadmap/CLAUDE.md"
 
 if [ -f "$CLAUDE_DST" ]; then
     if ! grep -qF "$IMPORT_LINE" "$CLAUDE_DST"; then
