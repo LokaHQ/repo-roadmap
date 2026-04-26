@@ -92,7 +92,7 @@ if [ -f "$TARGET/roadmap/CLAUDE-roadmap.md" ]; then
 fi
 
 if [ ! -f "$TARGET/roadmap/README.md" ]; then
-    cp "$SCRIPT_DIR/roadmap/README.md" "$TARGET/roadmap/README.md"
+    cp "$SCRIPT_DIR/roadmap/README.template.md" "$TARGET/roadmap/README.md"
     echo "✅ roadmap/README.md created (was missing)"
 fi
 
