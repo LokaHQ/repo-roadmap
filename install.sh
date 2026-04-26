@@ -57,8 +57,8 @@ cp "$SCRIPT_DIR/roadmap/templates/template-challenge.md" "$TARGET/roadmap/templa
 echo "✅ Templates copied to roadmap/templates/"
 echo "✅ roadmap/archived/ created"
 
-# Copy roadmap README
-cp "$SCRIPT_DIR/roadmap/README.md" "$TARGET/roadmap/README.md"
+# Copy roadmap README (use the blank template, not the live repo's own roadmap)
+cp "$SCRIPT_DIR/roadmap/README.template.md" "$TARGET/roadmap/README.md"
 echo "✅ roadmap/README.md created"
 
 # Copy convention instructions (fully owned by convention, safe to replace on upgrade)
