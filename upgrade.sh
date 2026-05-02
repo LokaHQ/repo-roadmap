@@ -132,8 +132,13 @@ if [ -f "$README_FILE" ]; then
     if ! grep -q "| Phase |" "$README_FILE"; then
         echo ""
         echo "⚠️  roadmap/README.md has an outdated table structure (missing Phase and Deps columns)."
-        echo "   The table is auto-maintained by Claude Code — run this to migrate it:"
-        echo "   cd $TARGET && claude \"Update roadmap table\""
+        if [ "$CREATE_PR" = false ] && command -v claude &>/dev/null; then
+            echo "   Spawning Claude Code to migrate the table..."
+            (cd "$TARGET" && claude "Update roadmap table")
+        else
+            echo "   Migrate manually once upgrade is complete:"
+            echo "   cd $TARGET && claude \"Update roadmap table\""
+        fi
     fi
 fi
 
