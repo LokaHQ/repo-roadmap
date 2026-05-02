@@ -13,9 +13,11 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # ── Flag parsing ──────────────────────────────────────────────────────────────
 
 CREATE_PR=false
+BATCH=false
 for arg in "$@"; do
     case $arg in
         --create-pr) CREATE_PR=true ;;
+        --batch)     BATCH=true ;;
     esac
 done
 
@@ -132,7 +134,7 @@ if [ -f "$README_FILE" ]; then
     if ! grep -q "| Phase |" "$README_FILE"; then
         echo ""
         echo "⚠️  roadmap/README.md has an outdated table structure (missing Phase and Deps columns)."
-        if [ "$CREATE_PR" = false ] && command -v claude &>/dev/null; then
+        if [ "$CREATE_PR" = false ] && [ "$BATCH" = false ] && command -v claude &>/dev/null; then
             echo "   Spawning Claude Code to migrate the table..."
             (cd "$TARGET" && claude "Update roadmap table")
         else

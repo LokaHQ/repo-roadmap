@@ -29,7 +29,7 @@ while IFS= read -r line || [ -n "$line" ]; do
     echo "▶ $line"
     echo ""
 
-    if bash "$SCRIPT_DIR/upgrade.sh" "$line" "$@"; then
+    if bash "$SCRIPT_DIR/upgrade.sh" "$line" --batch "$@"; then
         PASS+=("$line")
     else
         FAIL+=("$line")
