@@ -2,6 +2,8 @@
 status: todo
 priority: medium
 owner: ""
+phase: ""
+depends_on: []
 ---
 
 # Challenge: [Title]

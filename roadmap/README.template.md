@@ -27,8 +27,8 @@ Items start as flat files and grow into workspace directories when they need sup
 
 ## Current roadmap
 
-| File                        | Status      | Priority | Owner | One-Line Overview |
-|-----------------------------|-------------|----------|-------|-------------------|
+| File | Phase | Status | Priority | Deps | Owner | One-Line Overview |
+|------|-------|--------|----------|------|-------|-------------------|
 
 *(The table above is automatically maintained by Claude Code. Do not edit it manually.)*
 

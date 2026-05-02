@@ -125,6 +125,18 @@ if [ ! -d "$TARGET/roadmap/archived" ]; then
     echo "✅ roadmap/archived/ created"
 fi
 
+# ── Audit roadmap/README.md table structure ───────────────────────────────────
+
+README_FILE="$TARGET/roadmap/README.md"
+if [ -f "$README_FILE" ]; then
+    if ! grep -q "| Phase |" "$README_FILE"; then
+        echo ""
+        echo "⚠️  roadmap/README.md has an outdated table structure (missing Phase and Deps columns)."
+        echo "   The table is auto-maintained by Claude Code — run this to migrate it:"
+        echo "   cd $TARGET && claude \"Update roadmap table\""
+    fi
+fi
+
 # ── Audit content files ───────────────────────────────────────────────────────
 
 echo ""
