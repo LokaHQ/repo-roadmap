@@ -14,11 +14,11 @@ Most "roadmap in the repo" approaches are either a single `ROADMAP.md` that beco
 
 This convention enforces three clear buckets:
 
-- **`idea-*.md`** — early exploration. Ideas get a visible home where they can be shaped, discussed, or explicitly killed instead of lingering in someone's head.
+- **`idea-*.md`** — early exploration. Ideas get a visible home where they can be shaped, discussed, or explicitly rejected instead of lingering in someone's head. Rejection is a first-class status — documented with rationale so the decision doesn't get relitigated.
 - **`challenge-*.md`** — known problems with no solution yet. Forces honesty about blockers without pretending they're already solved.
 - **`feat-*.md`** — fully specced, ready to implement. Branch name, steps, test plan — anyone (or any AI) can pick one up and run.
 
-The natural lifecycle flows from there: **idea → refinement → feat** (or trash). Challenges live alongside as open problems. It's simple, but it's the structure most ad-hoc roadmaps never get around to enforcing.
+The natural lifecycle flows from there: **idea → refinement → feat** (or rejected). Challenges live alongside as open problems. It's simple, but it's the structure most ad-hoc roadmaps never get around to enforcing.
 
 Everything is plain markdown, version-controlled, greppable, and diffable. Zero extra tooling required.
 
@@ -28,7 +28,10 @@ If you use Claude Code, the convention becomes fully automated:
 
 - **Save** anything from natural language: *"Save this as a feature: add dark mode to the settings page"* → Claude picks the template, creates `roadmap/feat-dark-mode/` with the spec and a `docs/` directory ready for supporting material, adds the table row.
 - **Load** any entry to start work: *"Load the dark mode feature"* → Claude reads the full spec and presents a plan before writing any code.
-- **Table stays current** automatically — status, priority, and overview always reflect the actual files.
+- **Table stays current** automatically — status, priority, phase, dependencies, and overview always reflect the actual files.
+- **Phases** group items into a high-level timeline: *"Set phase of feat-dark-mode to 2"* → Claude updates the frontmatter and re-sorts the table. Items with no phase assigned float to the bottom.
+- **Dependencies** link items that must be done first: *"feat-dark-mode depends on challenge-theme-system"* → Claude records the dependency and warns if you try to pick up an item whose dependencies aren't done yet.
+- **Reject with rationale**: *"Reject idea-dark-mode"* → Claude prompts for the reasoning, documents it in the spec, and marks the item `rejected`. Rejected items stay visible in the table — the decision is on record, not buried in a deleted file.
 - **Archive when done**: Claude moves completed items to `roadmap/archived/` and removes them from the table. Nothing is deleted — full history stays in place.
 
 Each item lives in its own workspace directory so research notes, reference docs, and artifacts stay co-located with the spec:
@@ -64,7 +67,7 @@ The script copies `roadmap/` into the target and appends the Claude Code instruc
 bash repo-roadmap/upgrade.sh /path/to/your/repo
 ```
 
-This replaces the convention files (templates, `roadmap/CLAUDE.md`) with the latest version and audits your content files for any required migrations. Your roadmap entries are never touched.
+This replaces the convention files (templates, `roadmap/CLAUDE.md`) with the latest version and audits your content files for any required migrations. Your roadmap entries are never touched. If the roadmap table structure is outdated and Claude Code is installed, the script spawns it automatically to migrate the table — no manual step needed.
 
 To upgrade and open a PR for review:
 
