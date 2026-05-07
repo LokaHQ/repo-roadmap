@@ -27,11 +27,13 @@ Items start as flat files and grow into workspace directories when they need sup
 
 ## Current roadmap
 
-| File                        | Status      | Priority | Owner | One-Line Overview |
-|-----------------------------|-------------|----------|-------|-------------------|
-| [feat-check-update/](feat-check-update/feat-check-update.md) | ⏳ todo | medium | | A script installed into target repos that checks the local `.roadmap-version` against the latest GitHub release tag and tells the dev whether an upgrade is available. |
-| [idea-test-repo/](idea-test-repo/idea-test-repo.md) | ⏳ todo | medium | | Create a real GitHub repo (e.g. `rabb1tl0ka/repo-roadmap-test`) to run `install.sh` and `upgrade.sh` end-to-end so regressions like leftover files and double imports get caught before shipping. |
-| [challenge-upgrade-sh-e2e-test/](challenge-upgrade-sh-e2e-test/challenge-upgrade-sh-e2e-test.md) | 🔍 review | medium | | `upgrade.sh` shipped with a broken `gh` flag (`-C`) that wasn't caught because there's no end-to-end test covering the `--create-pr` path against a real git repo and `gh` CLI. |
+| File | Phase | Status | Priority | Deps | Owner | One-Line Overview |
+|------|-------|--------|----------|------|-------|-------------------|
+| [feat-check-update/](feat-check-update/feat-check-update.md) | — | ⏳ todo | medium | — | | A script installed into target repos that checks the local `.roadmap-version` against the latest GitHub release tag and tells the dev whether an upgrade is available. |
+| [feat-notion-publish-page/](feat-notion-publish-page/feat-notion-publish-page.md) | — | ⏳ todo | medium | — | | Publish archived roadmap items as child pages under a configured Notion parent page — no database, no schema, just a single command that posts the content and saves the URL back to frontmatter. |
+| [feat-notion-publish-db/](feat-notion-publish-db/feat-notion-publish-db.md) | — | ❌ blocked | medium | [feat-notion-publish-page](feat-notion-publish-page/feat-notion-publish-page.md) | | Publish any roadmap item to a Notion database with a single command, storing the resulting page URL back in the item's frontmatter for future updates. |
+| [idea-test-repo/](idea-test-repo/idea-test-repo.md) | — | ⏳ todo | medium | — | | Create a real GitHub repo (e.g. `rabb1tl0ka/repo-roadmap-test`) to run `install.sh` and `upgrade.sh` end-to-end so regressions like leftover files and double imports get caught before shipping. |
+| [challenge-upgrade-sh-e2e-test/](challenge-upgrade-sh-e2e-test/challenge-upgrade-sh-e2e-test.md) | — | 🔍 review | medium | — | | `upgrade.sh` shipped with a broken `gh` flag (`-C`) that wasn't caught because there's no end-to-end test covering the `--create-pr` path against a real git repo and `gh` CLI. |
 
 *(The table above is automatically maintained by Claude Code. Do not edit it manually.)*
 
