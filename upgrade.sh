@@ -127,6 +127,49 @@ if [ ! -d "$TARGET/roadmap/archived" ]; then
     echo "✅ roadmap/archived/ created"
 fi
 
+# ── Inject missing frontmatter fields (phase, depends_on) ────────────────────
+# Done here in shell so Claude never has to read spec files just to add defaults.
+
+echo ""
+INJECTED=0
+
+for f in \
+    "$TARGET/roadmap"/feat-*.md \
+    "$TARGET/roadmap"/idea-*.md \
+    "$TARGET/roadmap"/challenge-*.md \
+    "$TARGET/roadmap"/feat-*/feat-*.md \
+    "$TARGET/roadmap"/idea-*/idea-*.md \
+    "$TARGET/roadmap"/challenge-*/challenge-*.md; do
+    [ -f "$f" ] || continue
+    [[ "$f" == *"/archived/"* ]] && continue
+    head -1 "$f" | grep -q "^---" || continue  # skip files without frontmatter
+
+    needs_phase=false
+    needs_depends=false
+
+    awk '/^---/{p++; if(p==2)exit} p==1 && /^phase:/{found=1} END{exit !found}' "$f" 2>/dev/null || needs_phase=true
+    awk '/^---/{p++; if(p==2)exit} p==1 && /^depends_on:/{found=1} END{exit !found}' "$f" 2>/dev/null || needs_depends=true
+
+    if $needs_phase || $needs_depends; then
+        awk -v add_phase="$needs_phase" -v add_deps="$needs_depends" '
+            /^---/ { count++ }
+            count == 2 && !injected {
+                if (add_phase == "true") print "phase: \"\""
+                if (add_deps == "true") print "depends_on: []"
+                injected = 1
+            }
+            { print }
+        ' "$f" > "${f}.tmp" && mv "${f}.tmp" "$f"
+        INJECTED=$((INJECTED + 1))
+    fi
+done
+
+if [ "$INJECTED" -gt 0 ]; then
+    echo "✅ Injected missing frontmatter fields (phase/depends_on) into $INJECTED file(s)"
+else
+    echo "✅ All frontmatter fields up to date"
+fi
+
 # ── Audit roadmap/README.md table structure ───────────────────────────────────
 
 README_FILE="$TARGET/roadmap/README.md"
