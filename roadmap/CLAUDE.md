@@ -9,6 +9,8 @@ roadmap/
   feat-name/              ← workspace item (spec + supporting material)
     feat-name.md
     docs/
+      implementation-web.md      ← optional, created only on request
+      implementation-backend.md  ← optional, created only on request
   idea-simple.md          ← flat item (no workspace needed)
   archived/               ← completed or abandoned items (omitted from table)
   templates/
@@ -107,6 +109,28 @@ Every file must have a `## One-Line Overview` section right after the main title
    - Create `roadmap/<prefix>-<slug>/docs/` (always auto-create this)
 3. Add a row to the `## Current roadmap` table in `roadmap/README.md`
 
+### Implementation Specs (Web / Backend)
+
+An implementation spec is a layer-specific *technical* companion to a `feat-` item (occasionally a `challenge-`) — it covers the "how" for one layer (web or backend), never the "what"/"why" (that stays in the feat spec itself).
+
+**When to create one — only on explicit request:**
+- The user asks directly: "create a web implementation spec for feat-X", "spec out the backend for feat-X", "I'm starting the frontend build for feat-X — write the implementation spec first"
+- Do **NOT** create these automatically when a `feat-`/`idea-`/`challenge-` item is first saved, and do **NOT** pre-create them for every feature "just in case." A feature can sit specced for a long time before anyone is ready to write its technical plan — wait to be asked.
+- If a feature turns out not to need a backend (e.g. frontend-only, local state), don't create an empty/placeholder `implementation-backend.md` just for symmetry.
+
+**Where it lives:**
+`roadmap/<feat-slug>/docs/implementation-web.md` and/or `roadmap/<feat-slug>/docs/implementation-backend.md`, created from `roadmap/templates/template-implementation-web.md` / `template-implementation-backend.md`.
+
+**Rules:**
+1. Never duplicate the parent feat spec's product/behavior content — link to it (`[feat-slug](../feat-slug.md)`), don't restate it.
+2. Must include a concrete, runnable **Automated Test Plan** — real test file paths and the actual command to run them, so Claude can self-verify the implementation as it builds. Vague descriptions ("test that it works") don't satisfy this.
+3. These are `docs/` artifacts, not roadmap items — they are **not** added to the `## Current roadmap` table and don't use the standard roadmap frontmatter (`status`/`priority`/`phase`/`depends_on`). Use the lightweight frontmatter in the template instead (`feature`, `layer`, `status`, `owner`).
+4. When both a web and backend implementation spec exist for the same feature, their API/event contract sections must agree — cross-reference rather than redefine.
+
+**Useful commands to recognize:**
+- "Create a web implementation spec for [feat-X]" → create `docs/implementation-web.md` from the template
+- "Create a backend implementation spec for [feat-X]" → create `docs/implementation-backend.md` from the template
+
 ### Promotion (flat → workspace)
 
 When a user asks to create a `docs/` directory for a flat item, auto-promote it:
@@ -187,6 +211,7 @@ After **any** of the following actions, you **must** regenerate the entire "Curr
 - "Pick [filename]" or "I'm picking [filename]" → Set `status: in-progress` + `owner: <handle>` + check depends_on for unmet deps + refresh table
 - "Archive [item]" → Mark done, move to `roadmap/archived/`, remove from table
 - "Reject [item]" → Prompt for rationale, add `## Why this was rejected` section to spec, set `status: rejected`, refresh table
+- "Create a web/backend implementation spec for [feat-X]" → see "Implementation Specs (Web / Backend)" above — created only on explicit request, never automatically
 
 When the user asks you to create a new feature, idea, or challenge, always:
 1. Create the workspace directory and spec file using the correct template
