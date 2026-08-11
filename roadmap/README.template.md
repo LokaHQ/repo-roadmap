@@ -10,7 +10,7 @@ This directory contains specs, ideas, and challenges for contributors (and for m
 | `idea-`      | Early exploration — interesting direction, not yet fully designed. Good for discussion. |
 | `challenge-` | Problem to solve — the what is clear, the how is open. |
 
-Not a prefix, but part of the same naming system: inside a `feat-` item's `docs/` folder, `implementation-web.md` and `implementation-backend.md` are fixed filenames for layer-specific technical specs (the "how" for the web or backend build) — created only on request, never automatically. See "Working with docs/" below.
+Not a prefix, but part of the same naming system: inside a `feat-` item's `docs/` folder, `implementation-web.md`/`implementation-backend.md` (split stack) or `implementation-fullstack.md` (integrated stack, e.g. Next.js/Convex) are fixed filenames for technical specs (the "how" for the build) — created only on request, never automatically. See "Working with docs/" below.
 
 ## Directory layout
 
@@ -21,8 +21,9 @@ roadmap/
   feat-big-thing/         ← workspace: spec + supporting material
     feat-big-thing.md
     docs/                 ← research, references, artifacts
-      implementation-web.md      ← optional, created only on request
-      implementation-backend.md  ← optional, created only on request
+      implementation-web.md        ← optional, created only on request
+      implementation-backend.md    ← optional, created only on request
+      implementation-fullstack.md  ← optional, instead of the two above when the stack is integrated
   idea-simple.md          ← flat: no workspace needed
   archived/               ← completed or abandoned items
 ```
@@ -53,7 +54,7 @@ Contributions can be a PR that evolves the file itself (adding design, research,
 
 Drop any supporting material — research notes, reference docs, screenshots, competitive analysis — into the item's `docs/` directory. Claude Code will read from it when working on that item.
 
-One special case: `docs/implementation-web.md` and `docs/implementation-backend.md` are layer-specific technical companions to a `feat-` spec — the "how" for the web or backend build, with a concrete, runnable test plan. Ask for one by name ("create a web implementation spec for feat-X"); Claude won't create these on its own when a feature is first saved.
+One special case: `docs/implementation-web.md` and `docs/implementation-backend.md` are layer-specific technical companions to a `feat-` spec — the "how" for the web or backend build, with a concrete, runnable test plan. If the stack integrates both layers (e.g. Next.js/Convex), a single `docs/implementation-fullstack.md` replaces the pair instead of duplicating one feature across two documents. Ask for one by name ("create a web implementation spec for feat-X"); Claude won't create these on its own when a feature is first saved.
 
 ### Solo Dev + AI Workflow
 
@@ -73,3 +74,4 @@ Use these templates when creating new items:
 - [`templates/template-challenge.md`](templates/template-challenge.md)
 - [`templates/template-implementation-web.md`](templates/template-implementation-web.md) — created only on request, see "Working with docs/" above
 - [`templates/template-implementation-backend.md`](templates/template-implementation-backend.md) — created only on request, see "Working with docs/" above
+- [`templates/template-implementation-fullstack.md`](templates/template-implementation-fullstack.md) — instead of the two above when the stack is integrated, see "Working with docs/" above
