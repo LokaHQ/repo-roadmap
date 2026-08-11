@@ -10,6 +10,8 @@ This directory contains specs, ideas, and challenges for contributors (and for m
 | `idea-`      | Early exploration — interesting direction, not yet fully designed. Good for discussion. |
 | `challenge-` | Problem to solve — the what is clear, the how is open. |
 
+Not a prefix, but part of the same naming system: inside a `feat-` item's `docs/` folder, `implementation-web.md` and `implementation-backend.md` are fixed filenames for layer-specific technical specs (the "how" for the web or backend build) — created only on request, never automatically. See "Working with docs/" below.
+
 ## Directory layout
 
 Each roadmap item is either a flat `.md` file or a **workspace directory**:
