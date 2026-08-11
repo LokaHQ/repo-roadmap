@@ -19,6 +19,8 @@ roadmap/
   feat-big-thing/         ← workspace: spec + supporting material
     feat-big-thing.md
     docs/                 ← research, references, artifacts
+      implementation-web.md      ← optional, created only on request
+      implementation-backend.md  ← optional, created only on request
   idea-simple.md          ← flat: no workspace needed
   archived/               ← completed or abandoned items
 ```
@@ -49,6 +51,8 @@ Contributions can be a PR that evolves the file itself (adding design, research,
 
 Drop any supporting material — research notes, reference docs, screenshots, competitive analysis — into the item's `docs/` directory. Claude Code will read from it when working on that item.
 
+One special case: `docs/implementation-web.md` and `docs/implementation-backend.md` are layer-specific technical companions to a `feat-` spec — the "how" for the web or backend build, with a concrete, runnable test plan. Ask for one by name ("create a web implementation spec for feat-X"); Claude won't create these on its own when a feature is first saved.
+
 ### Solo Dev + AI Workflow
 
 Claude Code (and other local AI tools) is instructed to:
@@ -65,3 +69,5 @@ Use these templates when creating new items:
 - [`templates/template-feat.md`](templates/template-feat.md)
 - [`templates/template-idea.md`](templates/template-idea.md)
 - [`templates/template-challenge.md`](templates/template-challenge.md)
+- [`templates/template-implementation-web.md`](templates/template-implementation-web.md) — created only on request, see "Working with docs/" above
+- [`templates/template-implementation-backend.md`](templates/template-implementation-backend.md) — created only on request, see "Working with docs/" above
