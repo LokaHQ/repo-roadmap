@@ -9,6 +9,11 @@ set -e
 
 TARGET="$1"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+TARGET_RESOLVED="$(cd "$TARGET" 2>/dev/null && pwd)"
+SELF_UPGRADE=false
+if [ "$TARGET_RESOLVED" = "$SCRIPT_DIR" ]; then
+    SELF_UPGRADE=true
+fi
 
 # ── Flag parsing ──────────────────────────────────────────────────────────────
 
@@ -76,16 +81,22 @@ fi
 
 # ── Replace templates ─────────────────────────────────────────────────────────
 
-mkdir -p "$TARGET/roadmap/templates"
-cp "$SCRIPT_DIR/roadmap/templates/template-feat.md"      "$TARGET/roadmap/templates/"
-cp "$SCRIPT_DIR/roadmap/templates/template-idea.md"      "$TARGET/roadmap/templates/"
-cp "$SCRIPT_DIR/roadmap/templates/template-challenge.md" "$TARGET/roadmap/templates/"
-echo "✅ Templates replaced (3 files)"
+if [ "$SELF_UPGRADE" = true ]; then
+    echo "ℹ️  Self-upgrade detected (target is the convention's own repo) — skipping template/CLAUDE.md copy, already current"
+else
+    mkdir -p "$TARGET/roadmap/templates"
+    cp "$SCRIPT_DIR/roadmap/templates/template-feat.md"      "$TARGET/roadmap/templates/"
+    cp "$SCRIPT_DIR/roadmap/templates/template-idea.md"      "$TARGET/roadmap/templates/"
+    cp "$SCRIPT_DIR/roadmap/templates/template-challenge.md" "$TARGET/roadmap/templates/"
+    echo "✅ Templates replaced (3 files)"
+fi
 
 # ── Replace CLAUDE.md and roadmap/README.md ──────────────────────────────────
 
-cp "$SCRIPT_DIR/roadmap/CLAUDE.md" "$TARGET/roadmap/CLAUDE.md"
-echo "✅ roadmap/CLAUDE.md updated"
+if [ "$SELF_UPGRADE" = false ]; then
+    cp "$SCRIPT_DIR/roadmap/CLAUDE.md" "$TARGET/roadmap/CLAUDE.md"
+    echo "✅ roadmap/CLAUDE.md updated"
+fi
 
 # Remove old filename if still present (renamed in v0.3.0)
 if [ -f "$TARGET/roadmap/CLAUDE-roadmap.md" ]; then
