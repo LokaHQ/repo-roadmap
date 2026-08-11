@@ -126,6 +126,7 @@ An implementation spec is a layer-specific *technical* companion to a `feat-` it
 2. Must include a concrete, runnable **Automated Test Plan** — real test file paths and the actual command to run them, so Claude can self-verify the implementation as it builds. Vague descriptions ("test that it works") don't satisfy this.
 3. These are `docs/` artifacts, not roadmap items — they are **not** added to the `## Current roadmap` table and don't use the standard roadmap frontmatter (`status`/`priority`/`phase`/`depends_on`). Use the lightweight frontmatter in the template instead (`feature`, `layer`, `status`, `owner`).
 4. When both a web and backend implementation spec exist for the same feature, their API/event contract sections must agree — cross-reference rather than redefine.
+5. Before writing either spec, resolve the target code directory for that layer — don't assume a path. Check this repo's own top-level `CLAUDE.md` (not `roadmap/CLAUDE.md`, which is convention-owned and gets replaced wholesale on every upgrade) for an existing web/backend directory mapping. If none exists, ask the user once, then record their answer in the top-level `CLAUDE.md` so future specs don't need to ask again.
 
 **Useful commands to recognize:**
 - "Create a web implementation spec for [feat-X]" → create `docs/implementation-web.md` from the template
