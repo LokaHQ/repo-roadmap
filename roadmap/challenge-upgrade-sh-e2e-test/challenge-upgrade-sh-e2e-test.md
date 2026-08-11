@@ -2,6 +2,8 @@
 status: review
 priority: medium
 owner: ""
+phase: ""
+depends_on: []
 ---
 
 # Challenge: No E2E Test for upgrade.sh + gh Integration

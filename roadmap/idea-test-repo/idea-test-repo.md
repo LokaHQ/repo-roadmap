@@ -2,6 +2,8 @@
 status: todo
 priority: medium
 owner: ""
+phase: ""
+depends_on: []
 ---
 
 # Idea: Dedicated GitHub Test Repo for E2E Script Testing
