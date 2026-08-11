@@ -85,10 +85,8 @@ if [ "$SELF_UPGRADE" = true ]; then
     echo "ℹ️  Self-upgrade detected (target is the convention's own repo) — skipping template/CLAUDE.md copy, already current"
 else
     mkdir -p "$TARGET/roadmap/templates"
-    cp "$SCRIPT_DIR/roadmap/templates/template-feat.md"      "$TARGET/roadmap/templates/"
-    cp "$SCRIPT_DIR/roadmap/templates/template-idea.md"      "$TARGET/roadmap/templates/"
-    cp "$SCRIPT_DIR/roadmap/templates/template-challenge.md" "$TARGET/roadmap/templates/"
-    echo "✅ Templates replaced (3 files)"
+    cp "$SCRIPT_DIR"/roadmap/templates/*.md "$TARGET/roadmap/templates/"
+    echo "✅ Templates replaced ($(ls "$SCRIPT_DIR"/roadmap/templates/*.md | wc -l | tr -d ' ') files)"
 fi
 
 # ── Replace CLAUDE.md and roadmap/README.md ──────────────────────────────────

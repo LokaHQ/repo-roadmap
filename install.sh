@@ -51,9 +51,7 @@ mkdir -p "$TARGET/roadmap/templates"
 mkdir -p "$TARGET/roadmap/archived"
 
 # Copy templates
-cp "$SCRIPT_DIR/roadmap/templates/template-feat.md"      "$TARGET/roadmap/templates/"
-cp "$SCRIPT_DIR/roadmap/templates/template-idea.md"      "$TARGET/roadmap/templates/"
-cp "$SCRIPT_DIR/roadmap/templates/template-challenge.md" "$TARGET/roadmap/templates/"
+cp "$SCRIPT_DIR"/roadmap/templates/*.md "$TARGET/roadmap/templates/"
 echo "✅ Templates copied to roadmap/templates/"
 echo "✅ roadmap/archived/ created"
 
